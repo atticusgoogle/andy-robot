@@ -43,8 +43,8 @@
       qty: 1,
       specs: "A2 App Performance rating, V30 Video Speed, 160MB/s Read speed",
       notes: "A2 class rating is critical for high 4KB random read IOPS when loading large Gemma GGUF model weights into RAM on boot.",
-      sourcing: "SanDisk Extreme / Samsung EVO Select",
-      url: "https://www.amazon.com/dp/B09X7CFLDF",
+      sourcing: "SanDisk Extreme 64GB/128GB A2 V30",
+      url: "https://www.amazon.com/s?k=SanDisk+64GB+Extreme+microSDXC+A2+V30",
       vendor: "Amazon",
       svgType: "sd-card",
       crucial: true

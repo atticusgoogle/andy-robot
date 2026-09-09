@@ -57,7 +57,7 @@ Open `http://localhost:8090` in your web browser.
 |---|---|---|---|---|---|
 | 1 | Microcomputer | [Raspberry Pi 5 (8GB RAM)](https://www.adafruit.com/product/5813) | $80.00 | Adafruit / CanaKit | Mandatory 8GB for local 4-bit Gemma inference + openWakeWord in RAM |
 | 2 | Active Cooling | [Raspberry Pi Active Cooler](https://www.adafruit.com/product/5815) | $5.00 | Adafruit / PiShop | Aluminum heatsink + PWM fan; prevents thermal throttling |
-| 3 | Storage | [64GB/128GB MicroSD (A2/V30)](https://www.amazon.com/dp/B09X7CFLDF) | $15.00 | Amazon | High random IOPS for fast model loading |
+| 3 | Storage | [SanDisk 64GB/128GB MicroSD (A2/V30)](https://www.amazon.com/s?k=SanDisk+64GB+Extreme+microSDXC+A2+V30) | $15.00 | Amazon | High random IOPS for fast model loading (~$12–$15) |
 | 4 | Camera | [Pi Camera Module 3 (Wide 120°)](https://www.adafruit.com/product/5658) | $35.00 | Adafruit / PiShop | Wide-angle desk vision; autofocus |
 | 5 | Microphone | [INMP441 I2S MEMS Board](https://www.amazon.com/s?k=INMP441+I2S+microphone+module) | $3.50 | Amazon | Digital I2S interface; background acoustic threshold detection |
 | 6 | Audio Amp | [MAX98357A I2S Mono 3W Amp](https://www.adafruit.com/product/3006) | $4.00 | Adafruit | Direct digital audio out from GPIO pins (BCLK, LRCLK, DIN) |
