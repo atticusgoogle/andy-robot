@@ -67,10 +67,10 @@ try:
     bus = smbus.SMBus(1)
     bus.write_byte_data(MPU6050_ADDR, PWR_MGMT_1, 0) # Wake sensor up
     has_imu = True
-    print("✅ MPU6050 IMU initialized.")
+    print("[HARDWARE] MPU6050 IMU initialized.")
 except Exception as e:
     has_imu = False
-    print(f"⚠️ MPU6050 not detected: {e}. Shake trigger will use simulated fallback.")
+    print(f"[WARN] MPU6050 not detected: {e}. Shake trigger will use simulated fallback.")
 
 # ==============================================================================
 # 3. MOTOR & NECK ACTUATION HELPERS
@@ -184,10 +184,18 @@ def emergency_play_dead(trigger_reason):
         
     revive_alive()
 
+def get_cpu_temperature():
+    """Reads Raspberry Pi 5 CPU temperature in degrees Celsius."""
+    try:
+        with open("/sys/class/thermal/thermal_zone0/temp", "r") as f:
+            return float(f.read().strip()) / 1000.0
+    except Exception:
+        return 45.0
+
 def revive_alive():
     """Restores the robot back to life when Andy leaves."""
     global is_alive
-    print("✨ REVIVING: Chest button pressed. Coast is clear!")
+    print("[STATUS] REVIVING: Chest button pressed. Coast is clear!")
     
     # 1. Turn red glowing eyes back ON
     GPIO.output(LED_PIN, GPIO.HIGH)
@@ -200,21 +208,40 @@ def revive_alive():
     speak_toy_voice("Coast is clear! Andy is gone. Back to business!")
 
 # ==============================================================================
-# 6. SENSORY BACKGROUND LISTENERS
+# 6. SENSORY BACKGROUND LISTENERS & FAIL-SAFES
 # ==============================================================================
 def imu_monitoring_thread():
-    """Continuously checks for sudden tilt, lift, or heavy footsteps."""
+    """Continuously monitors for tilt, pickup, table edge tipping, and free-fall."""
     while True:
         if is_alive and has_imu:
             try:
-                # Read Z-axis high byte
-                high = bus.read_byte_data(MPU6050_ADDR, ACCEL_ZOUT_H)
-                # Normal 1g gravity reading is around ~16384 (raw)
-                if high > 120 or high < 20: # Sudden jerk / pickup
-                    emergency_play_dead("IMU Accelerometer Jerk (Robot Picked Up)")
+                # Read 6-axis acceleration high bytes
+                acc_x = bus.read_byte_data(MPU6050_ADDR, 0x3B)
+                acc_y = bus.read_byte_data(MPU6050_ADDR, 0x3D)
+                acc_z = bus.read_byte_data(MPU6050_ADDR, ACCEL_ZOUT_H)
+                
+                # Convert to signed 8-bit approximation
+                if acc_x > 127: acc_x -= 256
+                if acc_y > 127: acc_y -= 256
+                if acc_z > 127: acc_z -= 256
+                
+                # Fail-Safe 1: Handle Lift / Freefall / Violent Shake
+                if abs(acc_z) < 15: # Total acceleration near 0 = free fall / desk drop!
+                    emergency_play_dead("FAIL-SAFE: Free-fall Drop Detected (Instant Motor Kill)")
+                elif abs(acc_z) > 110 or abs(acc_x) > 90: # Picked up or shaken
+                    emergency_play_dead("FAIL-SAFE: Chassis Jerk / Picked Up by Handle")
+                    
+                # Fail-Safe 2: Pitch Tilt (Approaching Table Edge / Tipping Forward)
+                # If nose tips downward excessively (X tilt > 45 degrees)
+                if acc_x > 50:
+                    emergency_play_dead("FAIL-SAFE: Desk Edge Tilt Hazard Detected")
+                    
+                # Fail-Safe 3: Knocked Over / Roll Inversion
+                if abs(acc_y) > 55:
+                    emergency_play_dead("FAIL-SAFE: Robot Knocked On Its Side")
             except Exception:
                 pass
-        time.sleep(0.08)
+        time.sleep(0.05)
 
 def wakeword_listening_thread():
     """Listens for 'Andy's coming!' using openWakeWord."""
@@ -261,14 +288,19 @@ def main():
                 pan_head(pan_angles[idx % len(pan_angles)])
                 idx += 1
                 
+                # Check CPU Thermal Health
+                cpu_temp = get_cpu_temperature()
+                if cpu_temp > 75.0:
+                    print(f"[THERMAL FAIL-SAFE] CPU temp {cpu_temp:.1f}°C > 75°C. Pausing motion to cool down.")
+                else:
+                    # Small tread crawl only if thermal health is nominal
+                    if idx % 12 == 0:
+                        drive_tracks(1, 1, 0.4)
+                
                 # Autonomous curious desk commentary
                 if idx % 8 == 0:
                     comment = query_local_gemma("Notice something interesting on the desk and comment on it.")
                     speak_toy_voice(comment)
-                
-                # Small tread crawl
-                if idx % 12 == 0:
-                    drive_tracks(1, 1, 0.4)
                 
                 time.sleep(2.5)
             else:

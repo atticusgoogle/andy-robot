@@ -149,7 +149,32 @@ sudo systemctl start andy-robot.service
 
 ---
 
-## 6. 3D Printable Chassis (OpenSCAD)
+## 6. Electrical Safety & Autonomous Fail-Safes
+
+To ensure the robot never suffers electrical damage or "does something crazy" autonomously, the build implements multiple layers of hardware and software protection:
+
+### Do You Need a Smoke Stopper?
+- **During First Bench-Testing: YES (Highly Recommended)**:
+  - A **Smoke Stopper** is a self-resetting 1A–1.5A electronic current limiter (e.g. Vifly ShortSaver or automotive test fuse) temporarily connected between the battery and the circuit before your first power-up.
+  - **Why the 2S BMS isn't enough for bench testing**: The 2S BMS board trips at **10A–15A**. If you accidentally short 7.4V battery power to a 3.3V Pi GPIO pin or reverse polarity, 10 Amps will instantly destroy the Raspberry Pi in 50 milliseconds before the BMS trips. A 1A Smoke Stopper trips in under 10ms with zero damage.
+- **Permanent In-Chassis Protection**:
+  - The permanent circuit uses an **inline 5A fast-blow mini blade fuse** placed on the positive battery lead immediately after the battery holder, plus the **2S 10A BMS board** for cell balance, overcharge, and under-voltage protection.
+
+### The 6 Autonomous Fail-Safes
+
+| Failure Scenario | Hazard / "Crazy" Behavior | Fail-Safe Mechanism |
+|---|---|---|
+| **Software Freeze / CPU Hang** | Code stalls during Gemma inference while motor pins are driven HIGH &rarr; Runaway robot | **Watchdog & Bounded Pulses**: All track movements are limited to max 600ms pulses. The DRV8833 `SLP` pin has a hardware 10kΩ pull-down resistor so any Pi crash/freeze instantly grounds driver pins. |
+| **Desk Edge / Cliff Plunge** | Treads drive over edge of desk and fall to floor | **MPU6050 Pitch & Free-Fall Cutoff**: If front nose tips downward > 20° or gravity drops toward 0g (free-fall), the emergency freeze triggers in <10ms, killing motor drive immediately. |
+| **Chassis Knocked Over / Inverted** | Robot flipped onto its side or upside down | **Roll Inversion Protection**: MPU6050 monitors lateral roll. If roll exceeds 55°, motor power cuts instantly to prevent tread spin. |
+| **Track Obstruction / Motor Stall** | Robot pinned against book/wall; motors overheat | **Jerk / Motion Stall Check**: If motors are driven for >400ms but zero physical acceleration is detected by the IMU, the controller cuts motor drive and backs away. |
+| **CPU Overheating (Enclosed Torso)** | 4 CPU cores at 100% running local Gemma in plastic shell | **Thermal Throttling Monitor**: Software reads `/sys/class/thermal/thermal_zone0/temp`. If CPU > 75°C, roaming halts until temperatures normalize under the Active Cooler fan. |
+| **Low Battery Brownout** | Cell voltage drops below 6.0V, risking MicroSD filesystem corruption | **2S BMS Low-Voltage Cutoff**: Hardware disconnects cells before deep discharge; clean system shutdown triggered. |
+| **Physical Panic Override** | Sudden human presence or need to instantly freeze | **Physical Master Rocker Switch** on back chassis + Top-Handle pick-up trigger + Instant chest arrow click. |
+
+---
+
+## 7. 3D Printable Chassis (OpenSCAD)
 
 The parametric model is located at [`cad/andy_robot_chassis.scad`](cad/andy_robot_chassis.scad).
 
@@ -162,6 +187,6 @@ The parametric model is located at [`cad/andy_robot_chassis.scad`](cad/andy_robo
 
 ---
 
-## 7. License
+## 8. License
 
 MIT License. Open-source for hobbyists, makers, and retro toy enthusiasts!
