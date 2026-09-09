@@ -1,0 +1,14 @@
+[Unit]
+Description=Andy's Coming! Autonomous Toy Story AI Robot Service
+After=network.target sound.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi
+ExecStart=/usr/bin/python3 /home/pi/andy_robot_autonomous.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

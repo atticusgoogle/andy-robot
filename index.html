@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Andy's Coming! — Toy Story AI Robot Builder & Hardware Visualizer</title>
+  <meta name="description" content="Interactive 3D exploded assembly guide, visual BOM explorer, wiring pinout schematic, and Andy's Coming behavioral simulator for building a real-life Toy Story AI robot.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="assets/three.min.js"></script>
+  <script src="assets/OrbitControls.js"></script>
+</head>
+<body class="theme-workshop">
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="brand-icon">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor">
+            <rect x="6" y="8" width="20" height="18" rx="3" stroke-width="2.2" stroke="#2563eb" fill="#1e3a8a"/>
+            <path d="M10 4 A6 6 0 0 1 22 4" stroke="#38bdf8" stroke-width="2" fill="none"/>
+            <circle cx="12" cy="15" r="2.5" fill="#ef4444"/>
+            <circle cx="20" cy="15" r="2.5" fill="#ef4444"/>
+            <path d="M11 21 L13 19 L15 21" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+            <path d="M17 21 L19 19 L21 21" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+            <rect x="2" y="24" width="6" height="5" rx="1.5" fill="#dc2626"/>
+            <rect x="24" y="24" width="6" height="5" rx="1.5" fill="#dc2626"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">ANDY'S COMING! <span class="badge-tag">DIY AI ROBOT</span></div>
+          <div class="brand-subtitle">Raspberry Pi 5 &bull; Local Gemma LLM &bull; Dual-State Maker Project</div>
+        </div>
+      </div>
+
+      <!-- Quick Behavioral State Controller -->
+      <div class="quick-state-panel">
+        <div class="state-indicator-badge" id="headerStateBadge" data-state="alive">
+          <span class="status-pip"></span>
+          <span class="status-label">ALIVE MODE</span>
+        </div>
+        <div class="header-actions">
+          <button id="btnAndyEmergency" class="btn btn-emergency" title="Trigger instant Play Dead mode">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            "ANDY'S COMING!"
+          </button>
+          <button id="btnWakeUp" class="btn btn-wake" title="Press chest button to wake up robot">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" stroke="none" style="margin-right: 6px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            WAKE UP (CHEST)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" aria-label="Main Navigation">
+      <div class="tabs-container">
+        <button class="nav-tab active" data-tab="tab-3d-assembly">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          3D Interactive Assembly
+        </button>
+        <button class="nav-tab" data-tab="tab-bom-visual">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          Visual BOM Catalog (<span id="bomCountBadge">25</span>)
+        </button>
+        <button class="nav-tab" data-tab="tab-wiring-pinout">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          Master Wiring & Pi 5 Pinout
+        </button>
+        <button class="nav-tab" data-tab="tab-simulator">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          "Andy's Coming!" Simulator
+        </button>
+        <button class="nav-tab" data-tab="tab-build-guide">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+          Step-by-Step Beginner Guide
+        </button>
+        <button class="nav-tab" data-tab="tab-3d-print">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          3D Printing & Slicing
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Areas -->
+  <main class="main-content">
+    
+    <!-- ==================== TAB 1: 3D INTERACTIVE ASSEMBLY ==================== -->
+    <section id="tab-3d-assembly" class="tab-pane active">
+      
+      <!-- Quick Intro: What is this & What can it do? -->
+      <div class="quick-intro-banner">
+        <div class="intro-headline-wrap">
+          <span class="intro-badge">PROJECT BRIEF</span>
+          <h2 class="intro-title">A real-life Toy Story robot that secretly comes alive on your desk, but instantly plays dead when humans watch.</h2>
+        </div>
+
+        <div class="capabilities-strip">
+          <div class="cap-pill pill-red">
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </span>
+            <div class="pill-text">
+              <strong>"Andy's Coming!" Drop</strong>
+              <span>Head flops limp, tracks freeze, sound &amp; eyes cut in &lt;50ms</span>
+            </div>
+          </div>
+
+          <div class="cap-pill pill-blue">
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <div class="pill-text">
+              <strong>Object Scanner</strong>
+              <span>Appraises desk items via offline camera + local Gemma AI</span>
+            </div>
+          </div>
+
+          <div class="cap-pill pill-purple">
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </span>
+            <div class="pill-text">
+              <strong>1990s Toy Persona</strong>
+              <span>Chit-chats in retro toy voice on Pi 5 (no Wi-Fi needed)</span>
+            </div>
+          </div>
+
+          <div class="cap-pill pill-yellow">
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+            </span>
+            <div class="pill-text">
+              <strong>Desk Patrol</strong>
+              <span>Roams on rubber tank treads with 360° obstacle avoidance</span>
+            </div>
+          </div>
+
+          <div class="cap-pill pill-green">
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
+            </span>
+            <div class="pill-text">
+              <strong>Physical Reactivity</strong>
+              <span>Reacts when picked up, shaken, tapped, or flipped over</span>
+            </div>
+          </div>
+
+          <div class="cap-pill pill-teal">
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="6"></rect><circle cx="8" cy="12" r="3" fill="currentColor"></circle></svg>
+            </span>
+            <div class="pill-text">
+              <strong>Tactile Chest Buttons</strong>
+              <span>Physical green arrows for wake, volume &amp; patrol toggle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="assembly-layout">
+        <!-- 3D Canvas Viewport -->
+        <div class="viewport-card" id="viewport3D">
+          <div class="viewport-overlay-controls">
+            <div class="controls-toolbar">
+              <div class="slider-control-group">
+                <label for="explodedSlider" class="control-label">
+                  Exploded Assembly View: <span id="explodedValueText" class="val-highlight">35% (Inspection Mode)</span>
+                </label>
+                <input type="range" id="explodedSlider" min="0" max="100" value="35" step="1" class="slider-range">
+              </div>
+
+              <div class="btn-toggle-group">
+                <button id="btnToggleShell" class="tool-btn active" title="Toggle shell transparency">
+                  <span class="icon">&#9634;</span> Shell: Solid
+                </button>
+                <button id="btnToggleWires" class="tool-btn" title="Toggle internal wiring visualization">
+                  <span class="icon">&#8660;</span> Wires: Hidden
+                </button>
+                <button id="btnToggleSpin" class="tool-btn" title="Toggle slow auto-rotation">
+                  <span class="icon">&#8635;</span> Rotate
+                </button>
+              </div>
+
+              <div class="camera-preset-group">
+                <button class="cam-btn active" data-cam="iso">Isometric</button>
+                <button class="cam-btn" data-cam="front">Front</button>
+                <button class="cam-btn" data-cam="side">Profile</button>
+                <button class="cam-btn" data-cam="top">Top Down</button>
+                <button class="cam-btn" data-cam="reset">Reset</button>
+              </div>
+            </div>
+
+            <!-- On-Screen Status HUD -->
+            <div class="viewport-hud">
+              <div class="hud-item">
+                <span class="hud-label">STATE</span>
+                <span class="hud-value" id="hudState">ALIVE</span>
+              </div>
+              <div class="hud-item">
+                <span class="hud-label">HEAD SERVO PWM</span>
+                <span class="hud-value" id="hudPWM">7.5% (Center)</span>
+              </div>
+              <div class="hud-item">
+                <span class="hud-label">EYE LEDS</span>
+                <span class="hud-value" id="hudLeds">ON (DIFFUSED RED)</span>
+              </div>
+              <div class="hud-item">
+                <span class="hud-label">CHASSIS TORQUE</span>
+                <span class="hud-value" id="hudTorque">1.2 kg·cm ACTIVE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- WebGL 3D Container -->
+          <div id="robot3dCanvasContainer" class="three-canvas-wrap"></div>
+
+          <!-- Canvas Bottom Tip -->
+          <div class="viewport-footer">
+            <span class="hint-text">Controls: Left-Click + Drag to rotate &bull; Right-Click + Drag to pan &bull; Scroll to zoom &bull; Click any component to inspect</span>
+            <div class="exploded-quick-presets">
+              <span>Quick Views:</span>
+              <button class="pill-btn" onclick="setExplodedView(0)">0% Compact</button>
+              <button class="pill-btn active" onclick="setExplodedView(35)">35% Inspection</button>
+              <button class="pill-btn" onclick="setExplodedView(70)">70% Internal Stack</button>
+              <button class="pill-btn" onclick="setExplodedView(100)">100% Full Explode</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assembly Layers & Inspector Sidebar -->
+        <aside class="assembly-sidebar">
+          <div class="sidebar-header">
+            <h3>Component Inspector</h3>
+            <span class="help-tooltip" title="Click any layer in the list or in the 3D viewport to inspect its hardware details and assembly order.">&#9432;</span>
+          </div>
+
+          <!-- Active Part Details Card -->
+          <div class="inspector-card" id="partInspectorCard">
+            <div class="part-header">
+              <div class="part-badge" id="inspectPartBadge">Layer 4 &bull; Brain</div>
+              <h4 id="inspectPartTitle">Raspberry Pi 5 (8GB) + Active Cooler</h4>
+            </div>
+            <div class="part-image-preview" id="inspectPartImage">
+              <!-- Rendered dynamically -->
+            </div>
+            <div class="part-specs-grid" id="inspectPartSpecs">
+              <div class="spec-row">
+                <span class="spec-label">Purpose:</span>
+                <span class="spec-val" id="inspectPartRole">Main CPU for local Gemma LLM & OpenWakeWord</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label">Power Req:</span>
+                <span class="spec-val" id="inspectPartPower">5.1V regulated (up to 5A peak draw)</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label">Connection:</span>
+                <span class="spec-val" id="inspectPartConn">Pins 2/4 (5V), Pin 6 (GND), 22-pin CSI</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label">Mounting:</span>
+                <span class="spec-val" id="inspectPartMount">M2.5 brass standoffs to mid-chassis deck</span>
+              </div>
+            </div>
+            <div class="part-notes" id="inspectPartNotes">
+              <strong>Beginner Tip:</strong> The Pi 5 runs very hot during Gemma token generation. The official Active Cooler with thermal pads is required to avoid thermal throttling.
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btnJumpToBom">
+              View in BOM Catalog &rarr;
+            </button>
+          </div>
+
+          <!-- Vertical Assembly Stack Tree -->
+          <div class="assembly-layers-tree">
+            <h4 class="tree-heading">Physical Stacking Order (Bottom to Top)</h4>
+            <div class="layer-list" id="assemblyLayerList">
+              <!-- Dynamically Populated Layers -->
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: VISUAL BOM CATALOG ==================== -->
+    <section id="tab-bom-visual" class="tab-pane">
+      <div class="bom-dashboard">
+        <!-- Summary & Budget Banner -->
+        <div class="bom-stats-bar">
+          <div class="bom-stat-card">
+            <span class="stat-title">Estimated Total Cost</span>
+            <span class="stat-number text-accent" id="bomEstimatedTotalPrice">$249.00</span>
+            <span class="stat-desc">Complete 25-part BOM</span>
+          </div>
+          <div class="bom-stat-card">
+            <span class="stat-title">Acquired / Ordered</span>
+            <span class="stat-number" id="bomAcquiredPrice">$0.00</span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" id="bomProgressBar" style="width: 0%"></div>
+            </div>
+            <span class="stat-desc" id="bomAcquiredCount">0 of 25 parts checked</span>
+          </div>
+          <div class="bom-stat-card">
+            <span class="stat-title">Compute &amp; Intelligence</span>
+            <span class="stat-number">Pi 5 (8GB)</span>
+            <span class="stat-desc">Local offline Gemma AI + Piper</span>
+          </div>
+          <div class="bom-stat-card">
+            <span class="stat-title">Locomotion Chassis</span>
+            <span class="stat-number">Dual N20 + Treads</span>
+            <span class="stat-desc">High-torque tank crawler base</span>
+          </div>
+        </div>
+
+        <!-- Filter and Search Bar -->
+        <div class="bom-filter-bar">
+          <div class="search-input-wrap">
+            <input type="text" id="bomSearchInput" placeholder="Filter parts (e.g., servo, camera, battery, I2S)..." class="input-text">
+          </div>
+          <div class="filter-pills" id="bomCategoryPills">
+            <button class="filter-pill active" data-category="all">All (25)</button>
+            <button class="filter-pill" data-category="compute">Compute (3)</button>
+            <button class="filter-pill" data-category="vision-audio">Vision &amp; Audio (5)</button>
+            <button class="filter-pill" data-category="motion">Motion &amp; Servos (4)</button>
+            <button class="filter-pill" data-category="power">Power &amp; Battery (6)</button>
+            <button class="filter-pill" data-category="sensors-ui">Sensors &amp; UI (3)</button>
+            <button class="filter-pill" data-category="aesthetic">Chassis &amp; Hardware (4)</button>
+          </div>
+        </div>
+
+        <!-- Visual Parts Grid -->
+        <div class="bom-grid" id="bomPartsGrid">
+          <!-- Populated by JavaScript with rich graphics and specs -->
+        </div>
+
+        <!-- Photo Blueprint & Workbench Reference -->
+        <div class="reference-gallery-section">
+          <h3 class="gallery-title">Reference Hardware Photography &amp; CAD Blueprints</h3>
+          <div class="gallery-grid">
+            <div class="gallery-card">
+              <div class="gallery-img-wrap">
+                <img src="assets/robot-concept.jpg" alt="Completed Toy Story AI Robot on Maker Workbench" loading="lazy">
+              </div>
+              <div class="gallery-info">
+                <h4>Finished Robot Concept</h4>
+                <p>Royal blue body, clear acrylic eye dome, red tank tracks with yellow wheels, dual green chest buttons.</p>
+              </div>
+            </div>
+            <div class="gallery-card">
+              <div class="gallery-img-wrap">
+                <img src="assets/robot-exploded-blueprint.jpg" alt="CAD Exploded Assembly Blueprint" loading="lazy">
+              </div>
+              <div class="gallery-info">
+                <h4>Layered Engineering Blueprint</h4>
+                <p>Vertical exploded order: Dome &rarr; LED eyes &rarr; SG90 bracket &rarr; Upper torso &rarr; Pi 5 &rarr; Battery deck &rarr; Treads.</p>
+              </div>
+            </div>
+            <div class="gallery-card">
+              <div class="gallery-img-wrap">
+                <img src="assets/robot-parts-flatlay.jpg" alt="Electronics Workbench Flatlay with Labeled Components" loading="lazy">
+              </div>
+              <div class="gallery-info">
+                <h4>Component Flatlay &amp; Scale</h4>
+                <p>All micro-boards labeled: Camera Module 3, INMP441, MAX98357A, SG90, N20s, DRV8833, MPU6050, 18650s.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: MASTER WIRING & PI 5 PINOUT ==================== -->
+    <section id="tab-wiring-pinout" class="tab-pane">
+      <div class="wiring-layout">
+        <div class="wiring-header-card">
+          <div class="title-wrap">
+            <h3>Master Electrical Architecture &amp; Pi 5 GPIO Pinout</h3>
+            <p>Interactive circuit diagram showing power rails, I2S digital audio, I2C IMU, PWM servo, and DRV8833 motor control.</p>
+          </div>
+          <div class="wiring-filter-controls">
+            <span class="label">Highlight Circuit:</span>
+            <button class="pill-btn active" data-circuit="all">All Circuits</button>
+            <button class="pill-btn" data-circuit="power">Power Rails (7.4V / 5.1V / GND)</button>
+            <button class="pill-btn" data-circuit="audio">Digital Audio (I2S)</button>
+            <button class="pill-btn" data-circuit="motion">Motor Driver &amp; Servo</button>
+            <button class="pill-btn" data-circuit="sensors">Sensors &amp; Eyes (I2C / GPIO)</button>
+          </div>
+        </div>
+
+        <!-- Master Block Flow Architecture -->
+        <div class="architecture-diagram-card">
+          <h4>Power &amp; Bus Topology</h4>
+          <div class="circuit-flow-svg-wrap" id="circuitDiagramWrap">
+            <!-- Rendered SVG interactive circuit -->
+          </div>
+        </div>
+
+        <!-- Interactive 40-Pin GPIO Visualizer -->
+        <div class="gpio-pinout-section">
+          <div class="gpio-card">
+            <div class="gpio-card-header">
+              <h4>Raspberry Pi 5 — 40-Pin GPIO Header Map</h4>
+              <span class="badge-status">Hover over any pin to inspect connection &amp; function</span>
+            </div>
+            <div class="gpio-interactive-board" id="gpioBoard">
+              <!-- Pin table dynamically built in JS -->
+            </div>
+          </div>
+
+          <!-- Pin Detail Inspector -->
+          <div class="pin-inspector-panel" id="pinInspectorPanel">
+            <div class="pin-detail-header">
+              <span class="pin-badge" id="pinBadge">PIN 18 &bull; GPIO 24</span>
+              <h4 id="pinTitle">SG90 Servo PWM Signal</h4>
+            </div>
+            <div class="pin-detail-body">
+              <p id="pinDesc">Generates hardware-timed 50Hz PWM signals to command neck panning angles. Crucial: setting duty cycle to 0 drops torque instantly for the "Andy's Coming" limp flop!</p>
+              <div class="pin-meta-grid">
+                <div><span class="meta-lbl">Physical Pin:</span> <strong id="pinPhysical">Pin 12</strong></div>
+                <div><span class="meta-lbl">BCM Name:</span> <strong id="pinBcm">GPIO 18 (PWM0)</strong></div>
+                <div><span class="meta-lbl">Connected To:</span> <strong id="pinTarget">SG90 Orange Signal Wire</strong></div>
+                <div><span class="meta-lbl">Voltage Level:</span> <strong id="pinVoltage">3.3V Logic</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Safe Power Checklist -->
+        <div class="power-safety-alert">
+          <div class="alert-icon">&#9888;</div>
+          <div class="alert-content">
+            <h4>First-Time Builder Power Rules (Brownout &amp; Fry Prevention)</h4>
+            <ul>
+              <li><strong>Rule 1 (Never 7.4V on Pi):</strong> The 18650 batteries deliver up to 8.4V fully charged. Connecting this directly to the Pi will instantly permanently destroy it. Only connect through the calibrated 5V 5A buck converter!</li>
+              <li><strong>Rule 2 (Common Ground):</strong> Tie Pi GND, Battery GND, DRV8833 GND, and SG90 GND together into one single ground bus so signals share a reference zero point.</li>
+              <li><strong>Rule 3 (Motor Isolation):</strong> Motor VCC (VM pin on DRV8833) takes raw 7.4V battery power, NEVER the Pi 5's 5.1V rail. This prevents motor electrical noise from corrupting Pi memory.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: "ANDY'S COMING!" SIMULATOR ==================== -->
+    <section id="tab-simulator" class="tab-pane">
+      <div class="simulator-layout">
+        <!-- Robot Live Simulation Canvas / Stage -->
+        <div class="sim-stage-card">
+          <div class="sim-stage-header">
+            <div class="sim-state-indicator" id="simLiveBadge" data-state="alive">
+              <span class="dot"></span>
+              <span id="simStateName">STATE: ALIVE MODE</span>
+            </div>
+            <div class="sim-audio-indicator">
+              <span id="simAudioStatus">Audio: Piper TTS Active</span>
+            </div>
+          </div>
+
+          <!-- Animated Robot Avatar Stage -->
+          <div class="sim-robot-avatar-stage">
+            <div class="robot-visual-rig" id="robotRig">
+              <!-- Acrylic Dome & Head -->
+              <div class="rig-dome" id="rigDome">
+                <div class="rig-head" id="rigHead">
+                  <div class="rig-eye eye-left" id="rigEyeLeft"></div>
+                  <div class="rig-camera-lens"></div>
+                  <div class="rig-eye eye-right" id="rigEyeRight"></div>
+                </div>
+              </div>
+
+              <!-- Neck Pivot -->
+              <div class="rig-neck" id="rigNeck"></div>
+
+              <!-- Blue Torso -->
+              <div class="rig-torso" id="rigTorso">
+                <div class="rig-chest-plate">
+                  <button class="rig-chest-btn btn-arrow-left" id="rigChestBtn1" title="Chest Left Arrow Button">&lt;</button>
+                  <button class="rig-chest-btn btn-arrow-right" id="rigChestBtn2" title="Chest Right Arrow Button">&gt;</button>
+                </div>
+                <div class="rig-mic-slot" title="INMP441 Microphone Port"></div>
+              </div>
+
+              <!-- Red Treads & Yellow Wheels -->
+              <div class="rig-chassis-base">
+                <div class="rig-tread tread-left" id="rigTreadLeft">
+                  <div class="wheel w1"></div>
+                  <div class="wheel w2"></div>
+                  <div class="wheel w3"></div>
+                </div>
+                <div class="rig-tread tread-right" id="rigTreadRight">
+                  <div class="wheel w1"></div>
+                  <div class="wheel w2"></div>
+                  <div class="wheel w3"></div>
+                </div>
+              </div>
+
+              <!-- Speech Balloon for AI voice -->
+              <div class="speech-bubble" id="rigSpeechBubble">
+                "Andy's away at school! What shall we explore on this desk today?"
+              </div>
+            </div>
+          </div>
+
+          <!-- Live State Transition Trigger Controls -->
+          <div class="sim-trigger-deck">
+            <span class="deck-title">Simulate Sensory Triggers:</span>
+            <div class="trigger-buttons-grid">
+              <button class="btn btn-trigger btn-wakeword" id="triggerWakeWord">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                </span>
+                <span class="trigger-lbl">Wake Word: "Andy's Coming!"</span>
+                <span class="trigger-sub">OpenWakeWord trigger</span>
+              </button>
+
+              <button class="btn btn-trigger btn-footsteps" id="triggerFootsteps">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </span>
+                <span class="trigger-lbl">Loud Footsteps Detected</span>
+                <span class="trigger-sub">INMP441 audio threshold spike</span>
+              </button>
+
+              <button class="btn btn-trigger btn-light" id="triggerLight">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </span>
+                <span class="trigger-lbl">Door Opens / Light Change</span>
+                <span class="trigger-sub">Camera module exposure shift</span>
+              </button>
+
+              <button class="btn btn-trigger btn-shake" id="triggerShake">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                </span>
+                <span class="trigger-lbl">Robot Picked Up / Shaken</span>
+                <span class="trigger-sub">MPU6050 6-DOF gyro jerk</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry & Code Stream Sidebar -->
+        <aside class="sim-telemetry-sidebar">
+          <!-- Real-Time Hardware Telemetry -->
+          <div class="telemetry-card">
+            <h4>Live Hardware Telemetry</h4>
+            <div class="telemetry-meter-grid">
+              <div class="meter-item">
+                <span class="meter-label">SG90 Servo PWM Duty</span>
+                <span class="meter-value" id="telPwm">7.5%</span>
+                <div class="meter-bar"><div class="meter-fill" id="telPwmBar" style="width: 50%"></div></div>
+              </div>
+              <div class="meter-item">
+                <span class="meter-label">Neck Holding Torque</span>
+                <span class="meter-value" id="telTorque">1.8 kg·cm (LOCKED)</span>
+                <div class="meter-bar"><div class="meter-fill" id="telTorqueBar" style="width: 100%"></div></div>
+              </div>
+              <div class="meter-item">
+                <span class="meter-label">Red Eye LEDs (GPIO 17)</span>
+                <span class="meter-value" id="telLeds">3.3V (20mA Active)</span>
+                <div class="meter-bar"><div class="meter-fill bg-red" id="telLedsBar" style="width: 100%"></div></div>
+              </div>
+              <div class="meter-item">
+                <span class="meter-label">DRV8833 Motor State</span>
+                <span class="meter-value" id="telMotors">ACTIVE (PWM 60%)</span>
+                <div class="meter-bar"><div class="meter-fill bg-yellow" id="telMotorsBar" style="width: 60%"></div></div>
+              </div>
+              <div class="meter-item">
+                <span class="meter-label">5V Buck Bus Voltage</span>
+                <span class="meter-value" id="telVoltage">5.12V</span>
+                <div class="meter-bar"><div class="meter-fill bg-green" style="width: 95%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Python Execution Trace -->
+          <div class="code-trace-card">
+            <div class="trace-header">
+              <h4>Active andy_robot.py Script Execution</h4>
+              <span class="exec-indicator" id="execIndicator">RUNNING</span>
+            </div>
+            <pre class="code-terminal" id="simCodeTerminal">
+<span class="cm"># Listening loop active...</span>
+<span class="kn">while</span> <span class="kc">True</span>:
+    prediction = oww_model.predict(audio_chunk)
+    <span class="kn">if</span> prediction[<span class="s2">"andy_coming"</span>] &gt; <span class="mf">0.65</span>:
+        <span class="nf">emergency_play_dead</span>()
+            </pre>
+          </div>
+
+          <!-- Action Log -->
+          <div class="event-log-card">
+            <h4>Event &amp; Trigger Audit Log</h4>
+            <div class="log-stream" id="simEventLog">
+              <div class="log-entry log-system">[SYS] Robot booted. System state initialized to ALIVE MODE.</div>
+              <div class="log-entry log-info">[AUDIO] Piper TTS engine loaded voice en_US-lessac-medium.</div>
+              <div class="log-entry log-info">[SERVO] SG90 centered at 7.5% duty cycle.</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: STEP-BY-STEP BEGINNER GUIDE ==================== -->
+    <section id="tab-build-guide" class="tab-pane">
+      <div class="guide-layout">
+        <!-- Step Navigation Sidebar -->
+        <aside class="guide-step-nav">
+          <div class="guide-nav-header">
+            <h4>Build Roadmap</h4>
+            <span class="progress-sub" id="guideProgressText">0 of 5 Steps Finished</span>
+          </div>
+          <div class="step-nav-items" id="stepNavItems">
+            <button class="step-nav-btn active" data-step="1">
+              <span class="step-num">1</span>
+              <div class="step-info">
+                <strong>Compute &amp; OS Setup</strong>
+                <span>Pi 5, Cooler, OS Lite, CSI Ribbon</span>
+              </div>
+            </button>
+            <button class="step-nav-btn" data-step="2">
+              <span class="step-num">2</span>
+              <div class="step-info">
+                <strong>Offline AI Runtime</strong>
+                <span>llama.cpp, Gemma Q4, Piper, WakeWord</span>
+              </div>
+            </button>
+            <button class="step-nav-btn" data-step="3">
+              <span class="step-num">3</span>
+              <div class="step-info">
+                <strong>Power &amp; Wiring Integration</strong>
+                <span>BMS, 5.1V Buck Calibration, Common GND</span>
+              </div>
+            </button>
+            <button class="step-nav-btn" data-step="4">
+              <span class="step-num">4</span>
+              <div class="step-info">
+                <strong>Core Script: andy_robot.py</strong>
+                <span>Instant Limp Drop &amp; AI Loop</span>
+              </div>
+            </button>
+            <button class="step-nav-btn" data-step="5">
+              <span class="step-num">5</span>
+              <div class="step-info">
+                <strong>3D Print &amp; Physical Assembly</strong>
+                <span>Treads, Standoffs, Mic Foam, Acrylic Dome</span>
+              </div>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Step Content View -->
+        <div class="guide-content-panel">
+          <div class="step-content-card" id="stepContentCard">
+            <!-- Step 1 to 5 dynamically loaded with rich copyable snippets & visual aids -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: 3D PRINTING & SLICING ==================== -->
+    <section id="tab-3d-print" class="tab-pane">
+      <div class="print-studio-layout">
+        <div class="print-hero-card">
+          <div class="print-hero-text">
+            <h3>3D Printing &amp; Color Separation Guide</h3>
+            <p>To capture the authentic 1990s Toy Story aesthetic without messy painting, print color-separated body components directly in colored PLA or PETG filaments.</p>
+          </div>
+          <div class="filament-palette-bar">
+            <div class="palette-swatch swatch-blue"><span>Royal Blue PLA</span> Torso &amp; Head Base (~180g)</div>
+            <div class="palette-swatch swatch-red"><span>Bright Red PLA</span> Tread Casings (~110g)</div>
+            <div class="palette-swatch swatch-yellow"><span>Sunshine Yellow PLA</span> 6x Drive &amp; Idler Wheels (~45g)</div>
+            <div class="palette-swatch swatch-green"><span>Neon Green PLA</span> 2x Chest Arrow Buttons (~8g)</div>
+            <div class="palette-swatch swatch-clear"><span>Clear Acrylic (Purchased)</span> 80mm Half-Dome Canopy</div>
+          </div>
+        </div>
+
+        <!-- Slicing Recommendations Grid -->
+        <div class="slicer-settings-grid">
+          <div class="slicer-card">
+            <h4>Recommended Slicer Settings (PrusaSlicer / Bambu Studio / Cura)</h4>
+            <table class="specs-table">
+              <tr><td>Material</td><td><strong>PLA or PETG</strong> (PETG for better thermal resistance near Pi heatsink)</td></tr>
+              <tr><td>Perimeters / Walls</td><td><strong>3 walls minimum</strong> (4 walls recommended for motor bracket strength)</td></tr>
+              <tr><td>Infill Percentage</td><td><strong>20% to 25%</strong> for rigidity against track tension</td></tr>
+              <tr><td>Infill Pattern</td><td><strong>Gyroid</strong> (provides uniform 3D strength without weak shear planes)</td></tr>
+              <tr><td>Layer Height</td><td><strong>0.20mm</strong> (0.16mm for head faceplate for smooth curves)</td></tr>
+              <tr><td>Supports</td><td>Organic / Tree supports only needed for neck socket overhangs</td></tr>
+            </table>
+          </div>
+
+          <div class="slicer-card">
+            <h4>Part-by-Part Printable Manifest</h4>
+            <div class="printable-parts-list">
+              <div class="part-item">
+                <span class="part-color-dot dot-blue"></span>
+                <div class="part-txt">
+                  <strong>Upper Torso (Royal Blue)</strong>
+                  <span>Internal mounts for Pi 5 standoffs, front cutout for chest arrows, top aperture for SG90 servo bracket.</span>
+                </div>
+              </div>
+              <div class="part-item">
+                <span class="part-color-dot dot-blue"></span>
+                <div class="part-txt">
+                  <strong>Lower Chassis &amp; Battery Tray (Royal Blue)</strong>
+                  <span>Houses dual 18650 cells, BMS board, and 5V 5A buck converter with rear access cutout.</span>
+                </div>
+              </div>
+              <div class="part-item">
+                <span class="part-color-dot dot-red"></span>
+                <div class="part-txt">
+                  <strong>Left &amp; Right Tread Casings (Bright Red)</strong>
+                  <span>Snaps onto lower chassis; captive channels for dual N20 gearboxes and M2 mounting screws.</span>
+                </div>
+              </div>
+              <div class="part-item">
+                <span class="part-color-dot dot-yellow"></span>
+                <div class="part-txt">
+                  <strong>Drive &amp; Idler Wheel Bogies (Sunshine Yellow)</strong>
+                  <span>Press-fit D-shaft couplers for N20 motors and free-spinning idler axles.</span>
+                </div>
+              </div>
+              <div class="part-item">
+                <span class="part-color-dot dot-green"></span>
+                <div class="part-txt">
+                  <strong>Chest Arrow Buttons (Accent Green)</strong>
+                  <span>Translucent green buttons that mount directly in front of the 6x6mm tactile switches.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Part Detail Modal -->
+  <div class="modal-backdrop" id="partModalBackdrop">
+    <div class="modal-dialog" id="partModalDialog">
+      <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      <div class="modal-content-wrap" id="modalContentWrap">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Synthesizer Engine & App Logic Scripts -->
+  <script src="robot-3d.js"></script>
+  <script src="wiring-diagram.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
