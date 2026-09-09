@@ -154,7 +154,7 @@
       price: 14.00,
       qty: 1,
       specs: "30mm–32mm diameter wheels (3mm D-shaft bore) + 2× continuous rubber caterpillar tracks (14–16mm wide, 30T)",
-      notes: "WHEEL SIZING SPEC: Buy 30mm–32mm (1.20"–1.26") diameter wheels with 3mm D-shaft hubs so the drive sprockets press-fit directly onto the N20 gearmotors! Setup uses 6 wheels total (2 drive sprockets on motors + 4 idler/bogie wheels on axles). Recommended: Pololu 30T Track Set (Pololu #1415 or Adafruit PID 2726).",
+      notes: "WHEEL SIZING SPEC: Buy 30mm-32mm (1.20 to 1.26 inch) diameter wheels with 3mm D-shaft hubs so the drive sprockets press-fit directly onto the N20 gearmotors! Setup uses 6 wheels total (2 drive sprockets on motors + 4 idler/bogie wheels on axles). Recommended: Pololu 30T Track Set (Pololu #1415 or Adafruit PID 2726).",
       sourcing: "Pololu 30T Track Set / Adafruit PID 2726 / Amazon Mini Track Kit",
       url: "https://www.pololu.com/product/1415",
       vendor: "Pololu",
