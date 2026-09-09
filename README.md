@@ -59,7 +59,7 @@ Open `http://localhost:8090` in your web browser.
 | 2 | Active Cooling | [Raspberry Pi Active Cooler](https://www.adafruit.com/product/5815) | $5.00 | Adafruit / PiShop | Aluminum heatsink + PWM fan; prevents thermal throttling |
 | 3 | Storage | [64GB/128GB MicroSD (A2/V30)](https://www.amazon.com/dp/B09X7CFLDF) | $15.00 | Amazon | High random IOPS for fast model loading |
 | 4 | Camera | [Pi Camera Module 3 (Wide 120°)](https://www.adafruit.com/product/5658) | $35.00 | Adafruit / PiShop | Wide-angle desk vision; autofocus |
-| 5 | Microphone | [INMP441 I2S MEMS Board](https://www.amazon.com/dp/B08L7VBDW7) | $3.50 | Amazon | Digital I2S interface; background acoustic threshold detection |
+| 5 | Microphone | [INMP441 I2S MEMS Board](https://www.amazon.com/s?k=INMP441+I2S+microphone+module) | $3.50 | Amazon | Digital I2S interface; background acoustic threshold detection |
 | 6 | Audio Amp | [MAX98357A I2S Mono 3W Amp](https://www.adafruit.com/product/3006) | $4.00 | Adafruit | Direct digital audio out from GPIO pins (BCLK, LRCLK, DIN) |
 | 7 | Speaker | [4Ω 3W 40mm Enclosed Speaker](https://www.adafruit.com/product/3968) | $4.00 | Adafruit / Amazon | Sealed rear cavity yields authentic tinny 90s plastic toy sound |
 | 8 | Head Servo | [SG90 9g Analog Micro Servo](https://www.adafruit.com/product/169) | $3.00 | Adafruit | Analog servo required; 0% PWM duty cycle drops torque for limp flop |
@@ -70,15 +70,15 @@ Open `http://localhost:8090` in your web browser.
 | 13 | Facial LEDs | [2× 10mm Diffused Red LEDs + 220Ω](https://www.adafruit.com/product/4202) | $1.50 | Adafruit | Vintage glowing robot eyes on GPIO 17; instant black on play dead |
 | 14 | Chest Switches | [2× 6×6mm Panel Tactile Switches](https://www.adafruit.com/product/367) | $0.50 | Adafruit | Mounted behind green chest arrow buttons; click to wake/revive |
 | 15 | Battery Cells | [2× 18650 High-Discharge (Molicel P28A)](https://www.18650batterystore.com/products/molicel-p28a) | $14.00 | 18650BatteryStore | 2S 7.4V nominal; high discharge prevents voltage sag brownouts |
-| 16 | Battery Protection| [2S 10A–15A Li-ion BMS Board](https://www.amazon.com/dp/B07K6GLS1Z) | $3.00 | Amazon | Overcharge, low-voltage cutoff, and short-circuit protection |
+| 16 | Battery Protection| [2S 10A–15A Li-ion BMS Board](https://www.amazon.com/s?k=2S+10A+bms+protection+board) | $3.00 | Amazon | Overcharge, low-voltage cutoff, and short-circuit protection |
 | 17 | DC-DC Regulator | [5V 5A High-Efficiency Buck Converter](https://www.pololu.com/product/2851) | $5.00 | Pololu / Amazon | Steps down 7.4V to calibrated 5.10V rail for Pi 5 Pins 2/4 and SG90 |
 | 18 | Master Switch | [Mini SPST Rocker Switch (3A+)](https://www.adafruit.com/product/3221) | $1.00 | Adafruit | Physical master kill switch mounted to rear chassis |
-| 19 | Head Dome | [80mm Clear Acrylic Sphere Halves](https://www.amazon.com/dp/B07H83S82M) | $3.00 | Amazon | Clear canopy protecting camera lens and facial LEDs |
-| 20 | 3D Filament | [PLA (Royal Blue, Red, Yellow, Green)](https://www.amazon.com/dp/B07PGZ5S6Z) | $25.00 | Amazon / Polymaker | Multi-color retro palette matching original toy aesthetics |
-| 21 | Hardware Kit | [M2.5 & M2 Standoff + Screw Assortment](https://www.amazon.com/dp/B07D7824T2) | $8.00 | Amazon | Brass standoffs and screws for PCB and chassis mounting |
-| 22 | CSI Cable | [22-pin to 15-pin Mini CSI Cable (200mm)](https://www.adafruit.com/product/5806) | $3.50 | Adafruit / PiShop | Adapts Pi 5 mini 22-pin CSI pitch to Camera 3 |
-| 23 | Battery Holder | [2S 18650 Holder with Wire Leads](https://www.amazon.com/dp/B07PBW2P6X) | $2.00 | Amazon | Eliminates dangerous direct soldering to lithium cells |
-| 24 | USB-C Charger | [Type-C 2S 8.4V Boost Charger Board](https://www.amazon.com/dp/B0B5ZJ7M7V) | $2.50 | Amazon | Allows recharging battery pack via USB-C |
+| 19 | Head Dome | [80mm Clear Acrylic Sphere Halves](https://www.amazon.com/s?k=80mm+clear+acrylic+fillable+ornament+balls) | $3.00 | Amazon | Clear canopy protecting camera lens and facial LEDs |
+| 20 | 3D Filament | [PLA (Royal Blue, Red, Yellow, Green)](https://www.amazon.com/s?k=Polymaker+PolyLite+PLA+filament+1.75mm) | $25.00 | Amazon / Polymaker | Multi-color retro palette matching original toy aesthetics |
+| 21 | Hardware Kit | [M2.5 & M2 Standoff + Screw Assortment](https://www.amazon.com/s?k=M2.5+M2+brass+standoff+screw+kit) | $8.00 | Amazon | Brass standoffs and screws for PCB and chassis mounting |
+| 22 | CSI Cable | [22-pin to 15-pin Mini CSI Cable (200mm)](https://www.adafruit.com/product/5818) | $3.50 | Adafruit / PiShop | Adapts Pi 5 mini 22-pin CSI pitch to Camera 3 |
+| 23 | Battery Holder | [2S 18650 Holder with Wire Leads](https://www.amazon.com/s?k=2S+18650+battery+holder+with+leads) | $2.00 | Amazon | Eliminates dangerous direct soldering to lithium cells |
+| 24 | USB-C Charger | [Type-C 2S 8.4V Boost Charger Board](https://www.amazon.com/s?k=Type-C+2S+8.4V+boost+charger+board) | $2.50 | Amazon | Allows recharging battery pack via USB-C |
 | 25 | Wires | [DuPont Jumper Wires (40-Pin F-F / F-M)](https://www.adafruit.com/product/1950) | $2.50 | Adafruit | GPIO pin-to-sensor interconnections |
 | **Total** | | | **$249.00** | | Complete 25-part hardware BOM |
 

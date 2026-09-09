@@ -72,7 +72,7 @@
       specs: "Digital I2S interface, 61 dBA SNR, omnidirectional, 24-bit PCM",
       notes: "Digital I2S completely bypasses the noisy analog 3.5mm jack. Delivers crystal-clear speech capture directly to openWakeWord with zero motor hum.",
       sourcing: "INMP441 MEMS Omnidirectional I2S Mic",
-      url: "https://www.amazon.com/dp/B08L7VBDW7",
+      url: "https://www.amazon.com/s?k=INMP441+I2S+microphone+module",
       vendor: "Amazon",
       svgType: "i2s-mic",
       crucial: true
@@ -226,7 +226,7 @@
       specs: "2-Series battery management, 8.4V charge cutoff, 6.0V low-voltage cutoff, short circuit cutoff",
       notes: "Safeguards lithium cells from over-discharging or accidental shorts during prototyping.",
       sourcing: "2S 10A Li-ion BMS protection board",
-      url: "https://www.amazon.com/dp/B07K6GLS1Z",
+      url: "https://www.amazon.com/s?k=2S+10A+bms+protection+board",
       vendor: "Amazon",
       svgType: "bms-board",
       crucial: true
@@ -268,7 +268,7 @@
       specs: "80mm diameter clear polystyrene/acrylic half-dome, snap fit",
       notes: "Vintage Toy Story bubble canopy protecting the glowing red LED eyes and camera lens.",
       sourcing: "Clear Acrylic Plastic Fillable Ornament Balls (80mm)",
-      url: "https://www.amazon.com/dp/B07H83S82M",
+      url: "https://www.amazon.com/s?k=80mm+clear+acrylic+fillable+ornament+balls",
       vendor: "Amazon",
       svgType: "acrylic-dome",
       crucial: false
@@ -282,7 +282,7 @@
       specs: "1.75mm PLA or PETG (Royal Blue, Signal Red, Sunshine Yellow, Lime Green)",
       notes: "Printing in distinct colors gives an authentic retro toy finish straight off the print bed with zero painting required.",
       sourcing: "Polymaker PolyLite PLA 1.75mm",
-      url: "https://www.amazon.com/dp/B07PGZ5S6Z",
+      url: "https://www.amazon.com/s?k=Polymaker+PolyLite+PLA+filament+1.75mm",
       vendor: "Amazon",
       svgType: "spool-filament",
       crucial: false
@@ -296,7 +296,7 @@
       specs: "Brass threaded hex standoffs (M2.5 x 6mm/10mm), M2.5 pan-head screws, M2 motor mount screws",
       notes: "Crucial for mounting Pi 5, active cooler, buck converter, and N20 motor brackets securely to the 3D-printed chassis.",
       sourcing: "M2.5 & M2 Brass Standoffs and Screws Kit",
-      url: "https://www.amazon.com/dp/B07D7824T2",
+      url: "https://www.amazon.com/s?k=M2.5+M2+brass+standoff+screw+kit",
       vendor: "Amazon",
       svgType: "screw-kit",
       crucial: false
@@ -310,7 +310,7 @@
       specs: "22-pin 0.5mm pitch to 15-pin 1.0mm pitch flexible flat ribbon cable, 200mm length",
       notes: "CRITICAL: The Camera Module 3 in the box includes an older 15-pin cable that physically WILL NOT fit the Pi 5. You MUST buy this 22-pin adapter cable.",
       sourcing: "Raspberry Pi Camera Cable Mini (22-pin) to Standard (15-pin)",
-      url: "https://www.adafruit.com/product/5806",
+      url: "https://www.adafruit.com/product/5818",
       vendor: "Adafruit",
       svgType: "camera-module",
       crucial: true
@@ -324,7 +324,7 @@
       specs: "2-slot series 18650 plastic enclosure with gold-plated spring terminals and 22AWG red/black leads",
       notes: "SAFETY MANDATORY: Never attempt to solder wires directly onto raw 18650 lithium cells. This holder gives secure, solderless battery contact.",
       sourcing: "2x 18650 Series Battery Holder with Lead Wires",
-      url: "https://www.amazon.com/dp/B07PBW2P6X",
+      url: "https://www.amazon.com/s?k=2S+18650+battery+holder+with+leads",
       vendor: "Amazon",
       svgType: "battery-pair",
       crucial: true
@@ -338,7 +338,7 @@
       specs: "5V USB-C input -> 8.4V 1A CC/CV step-up charge management module with status LED",
       notes: "Turns the robot into a convenient rechargeable toy. Plugs into any standard phone USB-C charger to charge the 2S battery pack safely through the BMS.",
       sourcing: "Type-C 2S 8.4V Step-up Lithium Battery Charger Board",
-      url: "https://www.amazon.com/dp/B0B5ZJ7M7V",
+      url: "https://www.amazon.com/s?k=Type-C+2S+8.4V+boost+charger+board",
       vendor: "Amazon",
       svgType: "buck-converter",
       crucial: true
