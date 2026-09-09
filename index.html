@@ -268,9 +268,14 @@
             <div class="part-notes" id="inspectPartNotes">
               <strong>Beginner Tip:</strong> The Pi 5 runs very hot during Gemma token generation. The official Active Cooler with thermal pads is required to avoid thermal throttling.
             </div>
-            <button class="btn btn-secondary btn-sm" id="btnJumpToBom">
-              View in BOM Catalog &rarr;
-            </button>
+            <div class="inspector-actions" style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+              <button class="btn btn-secondary btn-sm" id="btnJumpToBom" style="flex: 1;">
+                View in BOM &rarr;
+              </button>
+              <a href="https://www.adafruit.com/product/5813" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" id="btnBuyComponent" style="flex: 1; text-align: center; text-decoration: none; justify-content: center;">
+                Buy Part &rarr;
+              </a>
+            </div>
           </div>
 
           <!-- Vertical Assembly Stack Tree -->

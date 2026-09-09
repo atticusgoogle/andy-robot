@@ -53,34 +53,49 @@ Open `http://localhost:8090` in your web browser.
 
 ## 3. Verified Bill of Materials (BOM) — Total: $249.00
 
-| # | Component | Model / Part | Price (USD) | Category | Role / Notes |
+| # | Component | Model / Purchase Link | Price (USD) | Store | Role / Notes |
 |---|---|---|---|---|---|
-| 1 | Microcomputer | Raspberry Pi 5 (8GB RAM) | $80.00 | Compute | Mandatory 8GB for local 4-bit Gemma inference + openWakeWord in RAM |
-| 2 | Active Cooling | Raspberry Pi Active Cooler | $5.00 | Cooling | Aluminum heatsink + PWM fan; prevents thermal throttling |
-| 3 | Storage | 64GB/128GB MicroSD (A2/V30) | $15.00 | Storage | High random IOPS for fast model loading |
-| 4 | Camera | Pi Camera Module 3 (Wide 120°) | $35.00 | Vision | Wide-angle desk vision; autofocus |
-| 5 | Microphone | INMP441 I2S MEMS Board | $3.50 | Audio In | Digital I2S interface; background acoustic threshold detection |
-| 6 | Audio Amp | MAX98357A I2S Mono 3W Amp | $4.00 | Audio Out | Direct digital audio out from GPIO pins (BCLK, LRCLK, DIN) |
-| 7 | Speaker | 4Ω 3W 40mm Enclosed Speaker | $4.00 | Audio Out | Sealed rear cavity yields authentic tinny 90s plastic toy sound |
-| 8 | Head Servo | SG90 9g Analog Micro Servo | $3.00 | Actuator | Analog servo required; 0% PWM duty cycle drops torque for limp flop |
-| 9 | Gearmotors | 2× N20 Micro Metal Gearmotors (6V 100RPM) | $8.00 | Locomotion | High-torque micro metal gearboxes for tank crawler base |
-| 10 | Motor Driver | DRV8833 Dual H-Bridge Module | $3.00 | Locomotion | Low RDS(on) MOSFETs; VM wired to raw 7.4V battery |
-| 11 | Track Kit | Mini Rubber Track & Wheel Kit | $14.00 | Locomotion | Continuous rubber tracks + 6 yellow wheels (drive sprockets & idlers) |
-| 12 | IMU Sensor | MPU6050 6-DOF Sensor (I2C) | $3.00 | Sensors | Detects handle lift, table taps, shakes, or flips |
-| 13 | Facial LEDs | 2× 10mm Diffused Red LEDs + 220Ω | $1.50 | Facial LEDs | Vintage glowing robot eyes on GPIO 17; instant black on play dead |
-| 14 | Chest Switches | 2× 6×6mm Panel Tactile Switches | $0.50 | Chest UI | Mounted behind green chest arrow buttons; click to wake/revive |
-| 15 | Battery Cells | 2× 18650 High-Discharge (Molicel P28A) | $14.00 | Power | 2S 7.4V nominal; high discharge prevents voltage sag brownouts |
-| 16 | Battery Protection| 2S 10A–15A Li-ion BMS Board | $3.00 | Power | Overcharge, low-voltage cutoff, and short-circuit protection |
-| 17 | DC-DC Regulator | 5V 5A High-Efficiency Buck Converter | $5.00 | Power | Steps down 7.4V to calibrated 5.10V rail for Pi 5 Pins 2/4 and SG90 |
-| 18 | Master Switch | Mini SPST Rocker Switch (3A+) | $1.00 | Power | Physical master kill switch mounted to rear chassis |
-| 19 | Head Dome | 80mm Clear Acrylic Sphere Half | $3.00 | Aesthetic | Clear canopy protecting camera lens and facial LEDs |
-| 20 | 3D Filament | PLA (Royal Blue, Red, Yellow, Green)| $25.00 | 3D Printing | Multi-color retro palette matching original toy aesthetics |
-| 21 | Hardware Kit | M2.5 & M2 Standoff + Screw Assortment | $8.00 | Fasteners | Brass standoffs and screws for PCB and chassis mounting |
-| 22 | CSI Cable | 22-pin to 15-pin Mini CSI Cable (200mm)| $3.50 | Vision Cable| Adapts Pi 5 mini 22-pin CSI pitch to Camera 3 |
-| 23 | Battery Holder | 2S 18650 Holder with Leads | $2.00 | Power Safety| Eliminates dangerous direct soldering to lithium cells |
-| 24 | USB-C Charger | Type-C 2S 8.4V Boost Charger Board | $2.50 | Recharging | Allows recharging battery pack via USB-C |
-| 25 | Wires | DuPont Jumper Wires (40-Pin F-F / F-M) | $2.50 | Prototyping | GPIO pin-to-sensor interconnections |
+| 1 | Microcomputer | [Raspberry Pi 5 (8GB RAM)](https://www.adafruit.com/product/5813) | $80.00 | Adafruit / CanaKit | Mandatory 8GB for local 4-bit Gemma inference + openWakeWord in RAM |
+| 2 | Active Cooling | [Raspberry Pi Active Cooler](https://www.adafruit.com/product/5815) | $5.00 | Adafruit / PiShop | Aluminum heatsink + PWM fan; prevents thermal throttling |
+| 3 | Storage | [64GB/128GB MicroSD (A2/V30)](https://www.amazon.com/dp/B09X7CFLDF) | $15.00 | Amazon | High random IOPS for fast model loading |
+| 4 | Camera | [Pi Camera Module 3 (Wide 120°)](https://www.adafruit.com/product/5658) | $35.00 | Adafruit / PiShop | Wide-angle desk vision; autofocus |
+| 5 | Microphone | [INMP441 I2S MEMS Board](https://www.amazon.com/dp/B08L7VBDW7) | $3.50 | Amazon | Digital I2S interface; background acoustic threshold detection |
+| 6 | Audio Amp | [MAX98357A I2S Mono 3W Amp](https://www.adafruit.com/product/3006) | $4.00 | Adafruit | Direct digital audio out from GPIO pins (BCLK, LRCLK, DIN) |
+| 7 | Speaker | [4Ω 3W 40mm Enclosed Speaker](https://www.adafruit.com/product/3968) | $4.00 | Adafruit / Amazon | Sealed rear cavity yields authentic tinny 90s plastic toy sound |
+| 8 | Head Servo | [SG90 9g Analog Micro Servo](https://www.adafruit.com/product/169) | $3.00 | Adafruit | Analog servo required; 0% PWM duty cycle drops torque for limp flop |
+| 9 | Gearmotors | [2× N20 Micro Metal Gearmotors (6V 100RPM)](https://www.pololu.com/product/2361) | $8.00 | Pololu / Amazon | High-torque micro metal gearboxes for tank crawler base (3mm D-shaft) |
+| 10 | Motor Driver | [DRV8833 Dual H-Bridge Module](https://www.pololu.com/product/2130) | $3.00 | Pololu / Adafruit | Low RDS(on) MOSFETs; VM wired to raw 7.4V battery |
+| 11 | Track Kit | [Pololu 30T Track & Wheel Set](https://www.pololu.com/product/1415) | $14.00 | Pololu / Adafruit | Continuous rubber tracks + 6 wheels (30mm–32mm OD, 3mm D-shaft hubs) |
+| 12 | IMU Sensor | [MPU6050 6-DOF Sensor (I2C)](https://www.adafruit.com/product/3886) | $3.00 | Adafruit | Detects handle lift, table taps, shakes, or cliff drops |
+| 13 | Facial LEDs | [2× 10mm Diffused Red LEDs + 220Ω](https://www.adafruit.com/product/4202) | $1.50 | Adafruit | Vintage glowing robot eyes on GPIO 17; instant black on play dead |
+| 14 | Chest Switches | [2× 6×6mm Panel Tactile Switches](https://www.adafruit.com/product/367) | $0.50 | Adafruit | Mounted behind green chest arrow buttons; click to wake/revive |
+| 15 | Battery Cells | [2× 18650 High-Discharge (Molicel P28A)](https://www.18650batterystore.com/products/molicel-p28a) | $14.00 | 18650BatteryStore | 2S 7.4V nominal; high discharge prevents voltage sag brownouts |
+| 16 | Battery Protection| [2S 10A–15A Li-ion BMS Board](https://www.amazon.com/dp/B07K6GLS1Z) | $3.00 | Amazon | Overcharge, low-voltage cutoff, and short-circuit protection |
+| 17 | DC-DC Regulator | [5V 5A High-Efficiency Buck Converter](https://www.pololu.com/product/2851) | $5.00 | Pololu / Amazon | Steps down 7.4V to calibrated 5.10V rail for Pi 5 Pins 2/4 and SG90 |
+| 18 | Master Switch | [Mini SPST Rocker Switch (3A+)](https://www.adafruit.com/product/3221) | $1.00 | Adafruit | Physical master kill switch mounted to rear chassis |
+| 19 | Head Dome | [80mm Clear Acrylic Sphere Halves](https://www.amazon.com/dp/B07H83S82M) | $3.00 | Amazon | Clear canopy protecting camera lens and facial LEDs |
+| 20 | 3D Filament | [PLA (Royal Blue, Red, Yellow, Green)](https://www.amazon.com/dp/B07PGZ5S6Z) | $25.00 | Amazon / Polymaker | Multi-color retro palette matching original toy aesthetics |
+| 21 | Hardware Kit | [M2.5 & M2 Standoff + Screw Assortment](https://www.amazon.com/dp/B07D7824T2) | $8.00 | Amazon | Brass standoffs and screws for PCB and chassis mounting |
+| 22 | CSI Cable | [22-pin to 15-pin Mini CSI Cable (200mm)](https://www.adafruit.com/product/5806) | $3.50 | Adafruit / PiShop | Adapts Pi 5 mini 22-pin CSI pitch to Camera 3 |
+| 23 | Battery Holder | [2S 18650 Holder with Wire Leads](https://www.amazon.com/dp/B07PBW2P6X) | $2.00 | Amazon | Eliminates dangerous direct soldering to lithium cells |
+| 24 | USB-C Charger | [Type-C 2S 8.4V Boost Charger Board](https://www.amazon.com/dp/B0B5ZJ7M7V) | $2.50 | Amazon | Allows recharging battery pack via USB-C |
+| 25 | Wires | [DuPont Jumper Wires (40-Pin F-F / F-M)](https://www.adafruit.com/product/1950) | $2.50 | Adafruit | GPIO pin-to-sensor interconnections |
 | **Total** | | | **$249.00** | | Complete 25-part hardware BOM |
+
+### Wheel & Track Sizing Specifications: What to Buy
+
+If you are wondering what exact wheel and track size to purchase, here are the mechanical specifications:
+
+1. **Wheel Outer Diameter (OD)**: **30 mm to 32 mm** (approx. 1.20 to 1.26 inches).
+2. **Shaft Bore / Hub Coupling**: **3 mm D-Shaft**. This is mandatory so the drive wheels press-fit directly onto the flat side of the N20 micro metal gearmotor output shafts without slipping.
+3. **Track Width**: **14 mm to 16 mm** (continuous silicone/rubber caterpillar tread).
+4. **Wheel Configuration**: **6 Wheels Total (3 per side)**:
+   - **1 Drive Sprocket (Rear)**: Press-fit onto the N20 motor 3mm D-shaft.
+   - **1 Front Idler Wheel**: Free-spinning on an M2.5 or M3 shoulder bolt.
+   - **1 Center Bogie Wheel**: Keeps the rubber tread flat against the desk surface.
+5. **Exact Off-the-Shelf Recommendation**:
+   - **[Pololu 30T Track and Wheel Set (Item #1415)](https://www.pololu.com/product/1415)** (also distributed by Adafruit as **[PID 2726](https://www.adafruit.com/product/2726)**). It includes the exact 30mm sprockets with 3mm D-shaft hubs, idler wheels, and continuous rubber tracks.
+   - If buying on Amazon or AliExpress, search: `"Mini Robot Track Set 30mm Wheels 3mm D Shaft"`.
 
 ---
 
