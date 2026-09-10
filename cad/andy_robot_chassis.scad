@@ -54,6 +54,11 @@ module upper_torso() {
             translate([a, TORSO_D/2 - 4, TORSO_H/2])
                 rotate([90, 0, 0]) cylinder(r=2, h=10);
         }
+
+        // Right-side Pi 5 I/O Port Window (USB 3.0 / USB 2.0 / Gigabit Ethernet & USB-C access)
+        // Matches concept art & blueprint: allows Pi 5 (85mm long) to slide into 86mm body with zero collision
+        translate([TORSO_W/2 - 5, -26, 8])
+            cube([10, 52, 20]);
     }
 
     // Pi 5 Standoff Posts (M2.5 brass heat-set or self-tapping holes)

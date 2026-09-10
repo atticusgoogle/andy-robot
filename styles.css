@@ -2558,6 +2558,175 @@ body {
   line-height: 1.35;
 }
 
+/* CAD & STL Download Grid */
+.cad-downloads-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.cad-downloads-card h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.cad-downloads-card p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.cad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.cad-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  transition: border-color 0.2s ease;
+}
+
+.cad-item:hover {
+  border-color: var(--color-primary);
+}
+
+.cad-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cad-item-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cad-badge {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  background: rgba(37, 99, 235, 0.15);
+  color: #93c5fd;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.cad-item-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.btn-download-stl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-download-stl:hover {
+  background: #1d4ed8;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-download-stl.scad-btn {
+  background: #065f46;
+  border-color: #059669;
+}
+
+.btn-download-stl.scad-btn:hover {
+  background: #047857;
+}
+
+/* Mechanical Fitment Verification Matrix */
+.fitment-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.fitment-card h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.fitment-card p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.fitment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.76rem;
+  text-align: left;
+}
+
+.fitment-table th {
+  background: var(--bg-card);
+  padding: 0.65rem 0.75rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fitment-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.fitment-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.fitment-table tr:last-child td {
+  border-bottom: none;
+}
+
+.fitment-badge-pass {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
 /* ==========================================================================
    Modal Dialog
    ========================================================================== */
